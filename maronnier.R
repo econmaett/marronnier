@@ -39,3 +39,49 @@ print(p)
 
 ggsave(filename = "maronnier.png", plot = p, path = ".", width = 12, height = 6, units = "cm", bg = "white")
 
+## combine datasets ----
+### Geneva horse chestnut tree ----
+geneva_chestnut <- readr::read_csv("https://raw.githubusercontent.com/econmaett/marronnier/refs/heads/main/maronnier_clean.csv") |> 
+  dplyr::mutate(date = as.Date(date), location = "Geneva")
+
+View(geneva_chestnut)
+
+### Liestal cherry blossom ----
+liestal_cherry <- readr::read_csv("https://raw.githubusercontent.com/GMU-CherryBlossomCompetition/peak-bloom-prediction/refs/heads/main/data/liestal.csv") |> 
+  dplyr::select(year, date = bloom_date, doy = bloom_doy) |> 
+  dplyr::mutate(date = as.Date(date), location = "Liestal")
+
+View(liestal_cherry)
+
+### Kyoto cherry blossom ----
+kyoto_cherry <- readr::read_csv("https://raw.githubusercontent.com/GMU-CherryBlossomCompetition/peak-bloom-prediction/refs/heads/main/data/kyoto.csv") |> 
+  dplyr::select(year, date = bloom_date, doy = bloom_doy) |> 
+  dplyr::mutate(date = as.Date(date), location = "Kyoto")
+
+View(kyoto_cherry)
+
+### combine datasets ----
+phenology <- dplyr::bind_rows(geneva_chestnut, liestal_cherry, kyoto_cherry)
+View(phenology)
+
+## plot ----
+phenology_caption <- "Vitasse, Y., Baumgarten, F., Zohner, C.M. et al. The great acceleration of plant phenological shifts. Nat. Clim. Chang. 12, 300–302 (2022). https://doi.org/10.1038/s41558-022-01283-y"
+
+p <- ggplot(data = phenology |> filter(year >= 1900), mapping = aes(x = year, y = doy)) +
+  geom_smooth(method = "loess", formula = "y ~ x", se = FALSE) +
+  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE) +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1) +
+  facet_grid(rows = vars(location), scale = "free_y") +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1900, 2025, 25), limits = c(1900, 2025)) +
+  labs(
+    title = "The onset of phenological plant response to climate warming",
+    subtitle = NULL,
+    x = NULL, y = NULL,
+    caption = str_wrap(phenology_caption)
+  )
+
+print(p)
+
+ggsave(filename = "phenology.png", plot = p, path = ".", width = 14, height = 18, units = "cm", bg = "white")
