@@ -21,8 +21,8 @@ marronnier_caption <- "https://ge.ch/grandconseil/secretariat/marronnier"
 
 p <- ggplot(data = marronnier, mapping = aes(x = year, y = doy)) +
   geom_hline(yintercept = 0, linewidth = 0.5, colour = "darkgray") +
-  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE, colour = "#954535", fill = "#954535", alpha = 0.3, span = 0.3) +
-  geom_line(linewidth = 0.5, colour = "gray", alpha = 0.25) +
+  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE, colour = "#954535", fill = "#954535", alpha = 0.1, span = 0.1) +
+  geom_line(linewidth = 0.5, colour = "gray", alpha = 0.1) +
   geom_point(size = 0.75) +
   scale_y_continuous(breaks = seq(-10, 110, 20), limits = c(-10, 110)) +
   scale_x_continuous(breaks = seq(1800, 2024, 25)) +
@@ -61,8 +61,8 @@ phenology <- dplyr::bind_rows(geneva_chestnut, liestal_cherry, kyoto_cherry)
 phenology_caption <- "Vitasse, Y., Baumgarten, F., Zohner, C.M. et al. The great acceleration of plant phenological shifts. Nat. Clim. Chang. 12, 300–302 (2022). https://doi.org/10.1038/s41558-022-01283-y"
 
 p <- ggplot(data = phenology |> filter(year >= 1900), mapping = aes(x = year, y = doy)) +
-  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE, span = 0.3, alpha = 0.3) +
-  geom_line(linewidth = 0.5, alpha = 0.25) +
+  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE, span = 0.1, alpha = 0.1) +
+  geom_line(linewidth = 0.5, alpha = 0.1) +
   geom_point(size = 1) +
   facet_grid(rows = vars(location), scale = "free_y") +
   theme_minimal() +
