@@ -21,12 +21,9 @@ marronnier_caption <- "https://ge.ch/grandconseil/secretariat/marronnier"
 
 p <- ggplot(data = marronnier, mapping = aes(x = year, y = doy)) +
   geom_hline(yintercept = 0, linewidth = 0.5, colour = "darkgray") +
-  geom_smooth(method = "loess", formula = "y ~ x", se = FALSE, colour = "#bc6c25") +
-  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE, colour = "#dda15e") +
-  geom_line(linewidth = 0.5, colour = "#606c38") +
-  geom_point(size = 0.75, colour = "#283618") +
-  scale_x_continuous(breaks = seq(1800, 2025, 25), limits = c(1800, 2025)) +
-  scale_y_continuous(breaks = seq(-20, 120, 20), limits = c(-20, 120)) +
+  geom_smooth(method = "loess", formula = "y ~ x", se = TRUE) +
+  geom_line(linewidth = 0.5) +
+  geom_point(size = 1) +
   labs(
     title = "Spring begins in Geneva when the official horse chestnut tree says so",
     subtitle = "Evolution of the dates of the appearance of the first official horse chestnut leaves of the year (1818-2024)",
